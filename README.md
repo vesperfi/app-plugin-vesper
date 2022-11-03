@@ -1,4 +1,4 @@
-# app-plugin-boilerplate
+# app-plugin-vesper
 
 This repo contains the Vesper plugin for Ledger Nano S, S Plus and X devices.
 
