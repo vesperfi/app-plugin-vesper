@@ -1,63 +1,26 @@
 #include "vesper_plugin.h"
 
-// EDIT THIS: You need to adapt / remove the static functions (set_send_ui, set_receive_ui ...) to
-// match what you wish to display.
-
-// Set UI for the "Send" screen.
-// EDIT THIS: Adapt / remove this function to your needs.
-static void set_send_ui(ethQueryContractUI_t *msg) {
-    strlcpy(msg->title, "Send", msg->titleLength);
-
-    const uint8_t *eth_amount = msg->pluginSharedRO->txContent->value.value;
-    uint8_t eth_amount_size = msg->pluginSharedRO->txContent->value.length;
-
-    // Converts the uint256 number located in `eth_amount` to its string representation and
-    // copies this to `msg->msg`.
-    amountToString(eth_amount, eth_amount_size, WEI_TO_ETHER, "ETH ", msg->msg, msg->msgLength);
+void set_msg_title(ethQueryContractUI_t *msg, const char *text) {
+    strlcpy(msg->title, text, msg->titleLength);
 }
 
-// Set UI for "Receive" screen.
-// EDIT THIS: Adapt / remove this function to your needs.
-static void set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
-    strlcpy(msg->title, "Receive Min.", msg->titleLength);
+void set_msg_msg(ethQueryContractUI_t *msg, const char *text) {
+    strlcpy(msg->msg, text, msg->msgLength);
+}
 
-    uint8_t decimals = context->decimals;
-    const char *ticker = context->ticker;
+static void set_pool_name_ui(ethQueryContractUI_t *msg, context_t *context) {
+    set_msg_title(msg, "Pool");
+    set_msg_msg(msg, context->pool_metadata->pool_ticker);
+}
 
-    // If the token look up failed, use the default network ticker along with the default decimals.
-    if (!context->token_found) {
-        decimals = WEI_TO_ETHER;
-        ticker = msg->network_ticker;
-    }
-
-    amountToString(context->amount_received,
-                   sizeof(context->amount_received),
-                   decimals,
-                   ticker,
+static void set_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
+    set_msg_title(msg, "Amount");
+    amountToString(context->amount,
+                   sizeof(context->amount),
+                   context->pool_metadata->decimals,
+                   context->pool_metadata->token_ticker,
                    msg->msg,
                    msg->msgLength);
-}
-
-// Set UI for "Beneficiary" screen.
-// EDIT THIS: Adapt / remove this function to your needs.
-static void set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
-    strlcpy(msg->title, "Beneficiary", msg->titleLength);
-
-    // Prefix the address with `0x`.
-    msg->msg[0] = '0';
-    msg->msg[1] = 'x';
-
-    // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
-    // Setting it to `0` will make it work with every chainID :)
-    uint64_t chainid = 0;
-
-    // Get the string representation of the address stored in `context->beneficiary`. Put it in
-    // `msg->msg`.
-    getEthAddressStringFromBinary(
-        context->beneficiary,
-        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
-        msg->pluginSharedRW->sha3,
-        chainid);
 }
 
 void handle_query_contract_ui(void *parameters) {
@@ -71,23 +34,37 @@ void handle_query_contract_ui(void *parameters) {
     memset(msg->title, 0, msg->titleLength);
     memset(msg->msg, 0, msg->msgLength);
 
-    msg->result = ETH_PLUGIN_RESULT_OK;
-
-    // EDIT THIS: Adapt the cases for the screens you'd like to display.
     switch (msg->screenIndex) {
         case 0:
-            set_send_ui(msg);
+            switch (context->selectorIndex) {
+                case DEPOSIT:
+                    set_pool_name_ui(msg, context);
+                    break;
+                // Keep this
+                default:
+                    PRINTF("Received an invalid selectorIndex (0): %d\n", context->selectorIndex);
+                    msg->result = ETH_PLUGIN_RESULT_ERROR;
+                    return;
+            }
             break;
         case 1:
-            set_receive_ui(msg, context);
-            break;
-        case 2:
-            set_beneficiary_ui(msg, context);
+            switch (context->selectorIndex) {
+                case DEPOSIT:
+                    set_amount_ui(msg, context);
+                    break;
+                // Keep this
+                default:
+                    PRINTF("Received an invalid selectorIndex (1): %d\n", context->selectorIndex);
+                    msg->result = ETH_PLUGIN_RESULT_ERROR;
+                    return;
+            }
             break;
         // Keep this
         default:
-            PRINTF("Received an invalid screenIndex\n");
+            PRINTF("Received an invalid screenIndex: %d\n", msg->screenIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             return;
     }
+
+    msg->result = ETH_PLUGIN_RESULT_OK;
 }

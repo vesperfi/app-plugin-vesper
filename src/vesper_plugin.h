@@ -4,51 +4,59 @@
 #include "eth_plugin_interface.h"
 #include <string.h>
 
-// Number of selectors defined in this plugin. Should match the enum `selector_t`.
-// EDIT THIS: Put in the number of selectors your plugin is going to support.
-#define NUM_SELECTORS 2
-
 // Name of the plugin.
 #define PLUGIN_NAME "Vesper"
 
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
-// EDIT THIS: Change the naming (`selector_t`), and add your selector names.
 typedef enum {
-    SWAP_EXACT_ETH_FOR_TOKENS = 0,
-    BOILERPLATE_DUMMY_2,
+    CLAIM_REWARD = 0,
+    DEPOSIT,
+    DEPOSIT_AND_CLAIM,
+    DEPOSIT_ETH,
+    DEPOSIT_ETH_AND_CLAIM,
+    SIMPLE_MIGRATE,
+    SIMPLE_MIGRATE_WITH_PERMIT,
+    WITHDRAW,
+    WITHDRAW_AND_CLAIM,
+    WITHDRAW_ETH,
+    WITHDRAW_ETH_AND_CLAIM,
+    CLAIM_REWARDS,
+    LOCK,
+    MINT,
+    UNLOCK,
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
-// EDIT THIS: Adapt the parameter names here.
 typedef enum {
-    MIN_AMOUNT_RECEIVED = 0,
-    TOKEN_RECEIVED,
-    BENEFICIARY,
-    PATH_OFFSET,
-    PATH_LENGTH,
+    AMOUNT = 0,
+    LOCK_PERIOD,
+    POOL_FROM,
+    POOL_TO,
+    POSITION_ID,
     UNEXPECTED_PARAMETER,
 } parameter;
 
+// Number of selectors defined in this plugin. Should match the enum `selector_t`.
+#define NUM_SELECTORS 15
+
 extern const uint32_t VESPER_SELECTORS[NUM_SELECTORS];
 
+typedef struct pool_metadata_t {
+    uint8_t address[ADDRESS_LENGTH];    // Pool address
+    char pool_ticker[MAX_TICKER_LEN];   // Pool ticker
+    char token_ticker[MAX_TICKER_LEN];  // Deposit token ticker
+    uint8_t decimals;                   // Deposit token decimals
+} pool_metadata_t;
+
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
-// EDIT THIS: This struct is used by your plugin to save the parameters you parse. You
-// will need to adapt this struct to your plugin.
 typedef struct context_t {
     // For display.
-    uint8_t amount_received[INT256_LENGTH];
-    uint8_t beneficiary[ADDRESS_LENGTH];
-    uint8_t token_received[ADDRESS_LENGTH];
-    char ticker[MAX_TICKER_LEN];
-    uint8_t decimals;
-    uint8_t token_found;
+    const pool_metadata_t *pool_metadata;
+    uint8_t amount[INT256_LENGTH];
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
-    uint16_t offset;     // Offset at which the array or struct starts.
-    bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
-                         // `offset` is reached.
 
     // For both parsing and display.
     selector_t selectorIndex;
