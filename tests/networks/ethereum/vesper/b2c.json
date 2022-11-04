@@ -11,6 +11,17 @@
           "plugin": "Vesper"
         }
       }
+    },
+    {
+      "address": "0x103cc17c2b1586e5cd9bad308690bcd0bbe54d5e",
+      "contractName": "vETH Pool",
+      "selectors": {
+        "0xd0e30db0": {
+          "erc20OfInterest": [],
+          "method": "deposit",
+          "plugin": "Vesper"
+        }
+      }
     }
   ],
   "name": "Vesper"
