@@ -21,8 +21,7 @@ endif
 
 include $(BOLOS_SDK)/Makefile.defines
 
-# EDIT THIS: Put your plugin name
-APPNAME = "Boilerplate"
+APPNAME = "Vesper"
 
 ifeq ($(ETHEREUM_PLUGIN_SDK),)
 ETHEREUM_PLUGIN_SDK=ethereum-plugin-sdk
@@ -39,9 +38,9 @@ APPVERSION       = "$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)"
 
 # EDIT THIS: Change the name of the gif, and generate you own GIFs!
 ifeq ($(TARGET_NAME), TARGET_NANOS)
-ICONNAME=icons/nanos_app_boilerplate.gif
+ICONNAME=icons/nanos_app_vesper.gif
 else
-ICONNAME=icons/nanox_app_boilerplate.gif
+ICONNAME=icons/nanox_app_vesper.gif
 endif
 
 ################
@@ -163,5 +162,4 @@ include $(BOLOS_SDK)/Makefile.rules
 dep/%.d: %.c Makefile
 
 listvariants:
-        # EDIT THIS: replace `boilerplate` by the lowercase name of your plugin
-	@echo VARIANTS NONE boilerplate
+	@echo VARIANTS NONE vesper

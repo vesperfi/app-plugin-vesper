@@ -33,8 +33,7 @@ const nano_models: DeviceModel[] = [
     { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
 ];
 
-
-const boilerplateJSON = generate_plugin_config();
+const vesperJSON = generate_plugin_config();
 
 const SPECULOS_ADDRESS = '0xFE984369CE3919AA7BB4F431082D027B4F8ED70C';
 const RANDOM_ADDRESS = '0xaaaabbbbccccddddeeeeffffgggghhhhiiiijjjj'
@@ -87,8 +86,7 @@ function zemu(device, func) {
         let elf_path;
         let lib_elf;
         elf_path = device.eth_path;
-        // Edit this: replace `Boilerplate` by your plugin name
-        lib_elf = { 'Boilerplate': device.path };
+    lib_elf = { Vesper: device.path };
 
         const sim = new Zemu(elf_path, lib_elf);
         try {
@@ -97,7 +95,7 @@ function zemu(device, func) {
             const eth = new Eth(transport);
             eth.setLoadConfig({
                 baseURL: null,
-                extraPlugins: boilerplateJSON,
+        extraPlugins: vesperJSON
             });
             await func(sim, eth);
         } finally {

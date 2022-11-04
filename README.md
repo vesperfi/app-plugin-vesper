@@ -1,32 +1,71 @@
-# app-plugin-boilerplate
+# app-plugin-vesper
 
-This repo is a meant to be a forkable example of a plugin.
+This repo contains the Vesper plugin for Ledger Nano S, S Plus and X devices.
 
-Plugins are lightweight applications that go hand-in-hand with the Ethereum
-Application on a Nano S / X device.
+It allows users to safely interact with the Vesper smart contracts by parsing the transaction data and displaying its content in a human readable way.
 
-They allow users to safely interact with smart contracts by parsing the
-transaction data and displaying its content in a human readable way. This is
-done on a "per contract" basis, meaning a plugin is required for every DApp.
+## Development
 
-The code has been commented, and special "EDIT THIS" comments indicate where
-developers are expected to adapt the code to their own needs.
+See the Ledger [plugin guide](https://developers.ledger.com/docs/dapp/nano-plugin/overview/) in order to better understand the flow and the context for plugins.
 
-It is STRONGLY recommended to follow the
-[plugin guide](https://developers.ledger.com/docs/dapp/nano-plugin/overview/)
-in order to better understand the flow and the context for plugins.
+### Clone repositories and update files
 
-## Ethereum SDK
+Locally clone the Ethereum SDK:
 
-Ethereum plugins need the [Ethereum SDK](https://github.com/LedgerHQ/ethereum-plugin-sdk).
-You can use the `ETHEREUM_PLUGIN_SDK` variable to point to the directory where you cloned
-this repository. By default, the `Makefile` expects it to be at the root directory of this
-plugin repository, by the `ethereum-plugin-sdk` name.
+```sh
+git clone https://github.com/LedgerHQ/ethereum-plugin-sdk
+```
 
-This repository is deliberately **not** a submodule. You can see that the CI workflows
-clone and checkout either the latest `master` or on `develop` references. This ensures
-the code is compiled and tested on the latest version of the SDK.
+Create a `plugin-dev` folder and clone the Ledger `app-ethereum` and `plugin-tools`.
 
-## Formatting
+```sh
+mkdir plugin_dev
+cd plugin_dev
+git clone https://github.com/LedgerHQ/app-ethereum
+git clone https://github.com/LedgerHQ/plugin-tools
+```
 
-The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
+Update the `.gitmodules` file in `app-ethereum` to clone the Ethereum SDK over HTTP:
+
+```diff
+-   path = ethereum-plugin-sdk
+-   url = git@github.com:LedgerHQ/ethereum-plugin-sdk.git
++   path = ethereum-plugin-sdk
++   url = https://github.com/LedgerHQ/ethereum-plugin-sdk
+```
+
+Update the `docker-compose` file in `plugin-tools` to adapt it to this repo folder structure:
+
+```diff
+     image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+     volumes:
+       - ..:/plugin_dev
++      - ../..:/plugin_dev/app-plugin-vesper
+     working_dir: /plugin_dev
+```
+
+### Run tests
+
+To run the tests, start the container first:
+
+```sh
+cd plugin-dev/plugin-tools
+./start.sh
+```
+
+Then, within the container, compile the app locally for testing:
+
+```sh
+cd app-plugin-vesper/tests
+./build_local_test_elfs.sh
+```
+
+Finally, back outside of the container and in the `tests` folder, install the test dependencies and run the tests:
+
+```sh
+cd tests
+yarn install
+yarn test
+```
+
+After making any change to the source code, recompile the app within the container and re-run the tests outside.

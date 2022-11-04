@@ -10,10 +10,10 @@
                         "path.1"
                     ],
                     "method": "swapExactETHForTokens",
-                    "plugin": "Boilerplate"
+                    "plugin": "Vesper"
 		        }
 	        }
 	    }
     ],
-    "name": "Boilerplate"
+    "name": "Vesper"
 }
