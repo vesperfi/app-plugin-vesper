@@ -16,8 +16,6 @@ void handle_provide_parameter(void *parameters) {
            PARAMETER_LENGTH,
            msg->parameter);
 
-    msg->result = ETH_PLUGIN_RESULT_OK;
-
     switch (context->selectorIndex) {
         case DEPOSIT:
             handle_deposit(msg, context);
@@ -26,6 +24,8 @@ void handle_provide_parameter(void *parameters) {
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
-            break;
+            return;
     }
+
+    msg->result = ETH_PLUGIN_RESULT_OK;
 }
