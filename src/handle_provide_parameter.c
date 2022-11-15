@@ -40,6 +40,7 @@ void handle_provide_parameter(void *parameters) {
             handle_deposit(msg, context);
             break;
         case WITHDRAW:
+        case WITHDRAW_ETH:
             handle_withdraw(msg, context);
             break;
         // TODO add more methods

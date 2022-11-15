@@ -71,6 +71,7 @@ void handle_query_contract_ui(void *parameters) {
                 case DEPOSIT:
                 case DEPOSIT_ETH:
                 case WITHDRAW:
+                case WITHDRAW_ETH:
                     set_pool_name_ui(msg, context);
                     break;
                 // Keep this
@@ -89,6 +90,7 @@ void handle_query_contract_ui(void *parameters) {
                     set_eth_amount_ui(msg, context);
                     break;
                 case WITHDRAW:
+                case WITHDRAW_ETH:
                     set_v_token_amount_ui(msg, context);
                     break;
                 // Keep this

@@ -50,6 +50,7 @@ void handle_init_contract(void *parameters) {
             context->next_param = UNEXPECTED_PARAMETER;
             break;
         case WITHDRAW:
+        case WITHDRAW_ETH:
             context->next_param = AMOUNT;
             break;
         // TODO add more methods and 1st params

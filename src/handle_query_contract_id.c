@@ -35,10 +35,14 @@ void handle_query_contract_id(void *parameters) {
             set_msg_version(msg, "Transfer");
             break;
         case WITHDRAW:
-        case WITHDRAW_ETH:
             set_msg_version(msg, "Withdraw");
             break;
+        case WITHDRAW_ETH:
+            set_msg_version(msg, "Withdraw ETH");
+            break;
         case WITHDRAW_AND_CLAIM:
+            set_msg_version(msg, "Withdraw ETH and claim");
+            break;
         case WITHDRAW_ETH_AND_CLAIM:
             set_msg_version(msg, "Withdraw and claim");
             break;
