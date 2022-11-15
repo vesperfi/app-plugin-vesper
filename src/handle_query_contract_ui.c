@@ -13,7 +13,7 @@ static void set_pool_name_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_msg(msg, context->pool_metadata->pool_ticker);
 }
 
-static void set_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
+static void set_token_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_title(msg, "Amount");
     amountToString(context->amount,
                    sizeof(context->amount),
@@ -23,7 +23,7 @@ static void set_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
                    msg->msgLength);
 }
 
-static void set_amount_eth_ui(ethQueryContractUI_t *msg, context_t *context) {
+static void set_eth_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_title(msg, "Amount");
     amountToString(msg->pluginSharedRO->txContent->value.value,
                    msg->pluginSharedRO->txContent->value.length,
@@ -61,10 +61,10 @@ void handle_query_contract_ui(void *parameters) {
         case 1:
             switch (context->selectorIndex) {
                 case DEPOSIT:
-                    set_amount_ui(msg, context);
+                    set_token_amount_ui(msg, context);
                     break;
                 case DEPOSIT_ETH:
-                    set_amount_eth_ui(msg, context);
+                    set_eth_amount_ui(msg, context);
                     break;
                 // Keep this
                 default:

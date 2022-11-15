@@ -1,8 +1,15 @@
 #include "vesper_plugin.h"
 
 static void handle_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case AMOUNT:
     copy_parameter(context->amount, msg->parameter, sizeof(context->amount));
     context->next_param = UNEXPECTED_PARAMETER;
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+    }
 }
 
 void handle_provide_parameter(void *parameters) {
