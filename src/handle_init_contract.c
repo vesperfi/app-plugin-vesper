@@ -49,6 +49,9 @@ void handle_init_contract(void *parameters) {
         case DEPOSIT_ETH:
             context->next_param = UNEXPECTED_PARAMETER;
             break;
+        case WITHDRAW:
+            context->next_param = AMOUNT;
+            break;
         // TODO add more methods and 1st params
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);

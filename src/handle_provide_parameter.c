@@ -3,8 +3,20 @@
 static void handle_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case AMOUNT:
-    copy_parameter(context->amount, msg->parameter, sizeof(context->amount));
-    context->next_param = UNEXPECTED_PARAMETER;
+            copy_parameter(context->amount, msg->parameter, sizeof(context->amount));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+    }
+}
+
+static void handle_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case AMOUNT:
+            copy_parameter(context->amount, msg->parameter, sizeof(context->amount));
+            context->next_param = UNEXPECTED_PARAMETER;
             break;
         default:
             PRINTF("Param not supported: %d\n", context->next_param);
@@ -26,6 +38,9 @@ void handle_provide_parameter(void *parameters) {
     switch (context->selectorIndex) {
         case DEPOSIT:
             handle_deposit(msg, context);
+            break;
+        case WITHDRAW:
+            handle_withdraw(msg, context);
             break;
         // TODO add more methods
         default:

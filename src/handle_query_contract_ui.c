@@ -33,6 +33,16 @@ static void set_eth_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
                    msg->msgLength);
 }
 
+static void set_v_token_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
+    set_msg_title(msg, "Amount");
+    amountToString(context->amount,
+                   sizeof(context->amount),
+                   18,
+                   context->pool_metadata->pool_ticker,
+                   msg->msg,
+                   msg->msgLength);
+}
+
 void handle_query_contract_ui(void *parameters) {
     ethQueryContractUI_t *msg = (ethQueryContractUI_t *) parameters;
     context_t *context = (context_t *) msg->pluginContext;
@@ -49,6 +59,7 @@ void handle_query_contract_ui(void *parameters) {
             switch (context->selectorIndex) {
                 case DEPOSIT:
                 case DEPOSIT_ETH:
+                case WITHDRAW:
                     set_pool_name_ui(msg, context);
                     break;
                 // Keep this
@@ -65,6 +76,9 @@ void handle_query_contract_ui(void *parameters) {
                     break;
                 case DEPOSIT_ETH:
                     set_eth_amount_ui(msg, context);
+                    break;
+                case WITHDRAW:
+                    set_v_token_amount_ui(msg, context);
                     break;
                 // Keep this
                 default:
