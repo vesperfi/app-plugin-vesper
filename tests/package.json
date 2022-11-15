@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel src/ -d lib/",
     "prepublish": "yarn run build",
-    "test": "jest src --verbose --runInBand --detectOpenHandles"
+    "test": "rm -rf snapshots-tmp && jest src --verbose --runInBand --detectOpenHandles",
+    "update-metadata": "node update_vesper_metadata >../src/vesper_metadata.h"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +26,8 @@
     "jest-serial-runner": "^1.1.0",
     "js-sha256": "^0.9.0",
     "regenerator-runtime": "^0.13.7",
-    "secp256k1": "^3.7.1"
+    "secp256k1": "^3.7.1",
+    "vesper-metadata": "^2.83.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",

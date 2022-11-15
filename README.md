@@ -69,3 +69,15 @@ yarn test
 ```
 
 After making any change to the source code, recompile the app within the container and re-run the tests outside.
+
+### Update Vesper metadata
+
+When a new pool is deployed or retired, the embedded metadata must be updated:
+
+```
+cd tests
+yarn install
+yarn run update-metadata
+```
+
+Then, the app has to be re-compiled and re-published.
