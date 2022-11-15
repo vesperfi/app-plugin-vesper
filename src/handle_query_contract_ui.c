@@ -8,6 +8,20 @@ void set_msg_msg(ethQueryContractUI_t *msg, const char *text) {
     strlcpy(msg->msg, text, msg->msgLength);
 }
 
+void set_token_amount(ethQueryContractUI_t *msg,
+                      const char *ticker,
+                      uint8_t decimals,
+                      uint8_t *amount,
+                      uint8_t amount_len) {
+    uint8_t ticker_len = strnlen(ticker, MAX_TICKER_LEN);
+
+    char ticker_with_space[MAX_TICKER_LEN + 1] = {0};
+    memcpy(ticker_with_space, ticker, ticker_len);
+    memcpy(&ticker_with_space[ticker_len], " \0", 2);
+
+    amountToString(amount, amount_len, decimals, ticker_with_space, msg->msg, msg->msgLength);
+}
+
 static void set_pool_name_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_title(msg, "Pool");
     set_msg_msg(msg, context->pool_metadata->pool_ticker);
@@ -15,32 +29,29 @@ static void set_pool_name_ui(ethQueryContractUI_t *msg, context_t *context) {
 
 static void set_token_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_title(msg, "Amount");
-    amountToString(context->amount,
-                   sizeof(context->amount),
-                   context->pool_metadata->decimals,
-                   context->pool_metadata->token_ticker,
-                   msg->msg,
-                   msg->msgLength);
+    set_token_amount(msg,
+                     context->pool_metadata->token_ticker,
+                     context->pool_metadata->decimals,
+                     context->amount,
+                     sizeof(context->amount));
 }
 
 static void set_eth_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_title(msg, "Amount");
-    amountToString(msg->pluginSharedRO->txContent->value.value,
-                   msg->pluginSharedRO->txContent->value.length,
-                   context->pool_metadata->decimals,
-                   context->pool_metadata->token_ticker,
-                   msg->msg,
-                   msg->msgLength);
+    set_token_amount(msg,
+                     context->pool_metadata->token_ticker,
+                     context->pool_metadata->decimals,
+                     msg->pluginSharedRO->txContent->value.value,
+                     msg->pluginSharedRO->txContent->value.length);
 }
 
 static void set_v_token_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
     set_msg_title(msg, "Amount");
-    amountToString(context->amount,
-                   sizeof(context->amount),
-                   18,
-                   context->pool_metadata->pool_ticker,
-                   msg->msg,
-                   msg->msgLength);
+    set_token_amount(msg,
+                     context->pool_metadata->pool_ticker,
+                     18,
+                     context->amount,
+                     sizeof(context->amount));
 }
 
 void handle_query_contract_ui(void *parameters) {
