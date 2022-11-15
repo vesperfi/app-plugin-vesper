@@ -69,8 +69,10 @@ void handle_query_contract_ui(void *parameters) {
         case 0:
             switch (context->selectorIndex) {
                 case DEPOSIT:
+                case DEPOSIT_AND_CLAIM:
                 case DEPOSIT_ETH:
                 case WITHDRAW:
+                case WITHDRAW_AND_CLAIM:
                 case WITHDRAW_ETH:
                     set_pool_name_ui(msg, context);
                     break;
@@ -84,12 +86,14 @@ void handle_query_contract_ui(void *parameters) {
         case 1:
             switch (context->selectorIndex) {
                 case DEPOSIT:
+                case DEPOSIT_AND_CLAIM:
                     set_token_amount_ui(msg, context);
                     break;
                 case DEPOSIT_ETH:
                     set_eth_amount_ui(msg, context);
                     break;
                 case WITHDRAW:
+                case WITHDRAW_AND_CLAIM:
                 case WITHDRAW_ETH:
                     set_v_token_amount_ui(msg, context);
                     break;
