@@ -5689,6 +5689,11 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
+vesper-metadata@^2.83.0:
+  version "2.83.0"
+  resolved "https://registry.yarnpkg.com/vesper-metadata/-/vesper-metadata-2.83.0.tgz#1edf419e859a8bb013a41b002e71ba80f5a218c2"
+  integrity sha512-1boV29+niZKZtyvflnsEhg9+IJLY4VZv/gzwZ6BGnASRhXqMTgvd4r4batV8FYtmW/CcBP4RcZe5MaW1wFfClA==
+
 w3c-hr-time@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/w3c-hr-time/-/w3c-hr-time-1.0.2.tgz#0a89cdf5cc15822df9c360543676963e0cc308cd"
