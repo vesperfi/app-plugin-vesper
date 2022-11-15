@@ -9,6 +9,11 @@
           "erc20OfInterest": [],
           "method": "deposit",
           "plugin": "Vesper"
+        },
+        "0x2e1a7d4d": {
+          "erc20OfInterest": [],
+          "method": "withdraw",
+          "plugin": "Vesper"
         }
       }
     },
