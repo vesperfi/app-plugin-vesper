@@ -41,10 +41,10 @@ void handle_query_contract_id(void *parameters) {
             set_msg_version(msg, "Withdraw ETH");
             break;
         case WITHDRAW_AND_CLAIM:
-            set_msg_version(msg, "Withdraw ETH and claim");
+            set_msg_version(msg, "Withdraw and claim");
             break;
         case WITHDRAW_ETH_AND_CLAIM:
-            set_msg_version(msg, "Withdraw and claim");
+            set_msg_version(msg, "Withdraw ETH and claim");
             break;
         case CLAIM_REWARDS:
             set_msg_version(msg, "Claim VSP");

@@ -44,14 +44,14 @@ void handle_init_contract(void *parameters) {
     // Set `next_param` to be the first field we expect to parse.
     switch (context->selectorIndex) {
         case DEPOSIT:
+        case DEPOSIT_AND_CLAIM:
+        case WITHDRAW:
+        case WITHDRAW_AND_CLAIM:
+        case WITHDRAW_ETH:
             context->next_param = AMOUNT;
             break;
         case DEPOSIT_ETH:
             context->next_param = UNEXPECTED_PARAMETER;
-            break;
-        case WITHDRAW:
-        case WITHDRAW_ETH:
-            context->next_param = AMOUNT;
             break;
         // TODO add more methods and 1st params
         default:

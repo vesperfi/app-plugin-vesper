@@ -1,18 +1,6 @@
 #include "vesper_plugin.h"
 
-static void handle_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
-    switch (context->next_param) {
-        case AMOUNT:
-            copy_parameter(context->amount, msg->parameter, sizeof(context->amount));
-            context->next_param = UNEXPECTED_PARAMETER;
-            break;
-        default:
-            PRINTF("Param not supported: %d\n", context->next_param);
-            msg->result = ETH_PLUGIN_RESULT_ERROR;
-    }
-}
-
-static void handle_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_deposit_and_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case AMOUNT:
             copy_parameter(context->amount, msg->parameter, sizeof(context->amount));
@@ -37,11 +25,11 @@ void handle_provide_parameter(void *parameters) {
 
     switch (context->selectorIndex) {
         case DEPOSIT:
-            handle_deposit(msg, context);
-            break;
+        case DEPOSIT_AND_CLAIM:
         case WITHDRAW:
+        case WITHDRAW_AND_CLAIM:
         case WITHDRAW_ETH:
-            handle_withdraw(msg, context);
+            handle_deposit_and_withdraw(msg, context);
             break;
         // TODO add more methods
         default:
