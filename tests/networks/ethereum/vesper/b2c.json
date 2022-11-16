@@ -5,14 +5,14 @@
       "address": "0x4b2e76ebbc9f2923d83f5fbde695d8733db1a17b",
       "contractName": "vWBTC Pool",
       "selectors": {
-        "0xb6b55f25": {
-          "erc20OfInterest": [],
-          "method": "deposit",
-          "plugin": "Vesper"
-        },
         "0x2e1a7d4d": {
           "erc20OfInterest": [],
           "method": "withdraw",
+          "plugin": "Vesper"
+        },
+        "0xb6b55f25": {
+          "erc20OfInterest": [],
+          "method": "deposit",
           "plugin": "Vesper"
         }
       }
@@ -24,6 +24,11 @@
         "0xd0e30db0": {
           "erc20OfInterest": [],
           "method": "deposit",
+          "plugin": "Vesper"
+        },
+        "0xf14210a6": {
+          "erc20OfInterest": [],
+          "method": "withdrawETH",
           "plugin": "Vesper"
         }
       }
