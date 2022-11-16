@@ -48,6 +48,22 @@
           "plugin": "Vesper"
         }
       }
+    },
+    {
+      "address": "0xa89566489e932a2d334b9eff7884feb21a07d2b3",
+      "contractName": "veETH-DAI Earn Pool",
+      "selectors": {
+        "0x6d43aed8": {
+          "erc20OfInterest": [],
+          "method": "withdrawETHAndClaim",
+          "plugin": "Vesper"
+        },
+        "0xc9d7f672": {
+          "erc20OfInterest": [],
+          "method": "depositAndClaim",
+          "plugin": "Vesper"
+        }
+      }
     }
   ],
   "name": "Vesper"

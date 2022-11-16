@@ -29,6 +29,7 @@ void handle_provide_parameter(void *parameters) {
         case WITHDRAW:
         case WITHDRAW_AND_CLAIM:
         case WITHDRAW_ETH:
+        case WITHDRAW_ETH_AND_CLAIM:
             handle_deposit_and_withdraw(msg, context);
             break;
         // TODO add more methods

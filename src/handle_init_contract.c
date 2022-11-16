@@ -48,9 +48,11 @@ void handle_init_contract(void *parameters) {
         case WITHDRAW:
         case WITHDRAW_AND_CLAIM:
         case WITHDRAW_ETH:
+        case WITHDRAW_ETH_AND_CLAIM:
             context->next_param = AMOUNT;
             break;
         case DEPOSIT_ETH:
+        case DEPOSIT_ETH_AND_CLAIM:
             context->next_param = UNEXPECTED_PARAMETER;
             break;
         // TODO add more methods and 1st params
