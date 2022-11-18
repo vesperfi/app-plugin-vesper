@@ -68,7 +68,6 @@ void handle_query_contract_ui(void *parameters) {
     switch (msg->screenIndex) {
         case 0:
             switch (context->selectorIndex) {
-                case CLAIM_REWARD:
                 case DEPOSIT:
                 case DEPOSIT_AND_CLAIM:
                 case DEPOSIT_ETH:
@@ -77,6 +76,7 @@ void handle_query_contract_ui(void *parameters) {
                 case WITHDRAW_AND_CLAIM:
                 case WITHDRAW_ETH:
                 case WITHDRAW_ETH_AND_CLAIM:
+                case CLAIM_REWARD:
                     set_pool_name_ui(msg, context);
                     break;
                 // Keep this

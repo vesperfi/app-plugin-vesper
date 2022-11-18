@@ -25,41 +25,36 @@
 #include "vesper_plugin.h"
 
 // List of selectors supported by this plugin.
-// Pools calls:
-static const uint32_t CLAIM_REWARD_SELECTOR = 0xd279c191;
+// Pools:
 static const uint32_t DEPOSIT_SELECTOR = 0xb6b55f25;
 static const uint32_t DEPOSIT_AND_CLAIM_SELECTOR = 0xa941a90e;
 static const uint32_t DEPOSIT_ETH_SELECTOR = 0xd0e30db0;
 static const uint32_t DEPOSIT_ETH_AND_CLAIM_SELECTOR = 0xc9d7f672;
-static const uint32_t SIMPLE_MIGRATE_SELECTOR = 0xd24612e9;
-static const uint32_t SIMPLE_MIGRATE_WITH_PERMIT_SELECTOR = 0xc3acd6b6;
 static const uint32_t WITHDRAW_SELECTOR = 0x2e1a7d4d;
 static const uint32_t WITHDRAW_AND_CLAIM_SELECTOR = 0x448a1047;
 static const uint32_t WITHDRAW_ETH_SELECTOR = 0xf14210a6;
 static const uint32_t WITHDRAW_ETH_AND_CLAIM_SELECTOR = 0x6d43aed8;
-// VSP locking/bonding calls:
-static const uint32_t CLAIM_REWARDS_SELECTOR = 0xef5cfb8c;
-static const uint32_t LOCK_SELECTOR = 0x1338736f;
-static const uint32_t MINT_SELECTOR = 0x156e29f6;
-static const uint32_t UNLOCK_SELECTOR = 0x6b41674c;
+// Pool rewards:
+static const uint32_t CLAIM_REWARD_SELECTOR = 0xd279c191;
+// Army knife:
+static const uint32_t SIMPLE_MIGRATE_SELECTOR = 0xd24612e9;
+static const uint32_t SIMPLE_MIGRATE_WITH_PERMIT_SELECTOR = 0xc3acd6b6;
 
 // Array of all the different Vesper selectors. Make sure this follows the same order as the
 // enum defined in `vesper_plugin.h`
-const uint32_t VESPER_SELECTORS[NUM_SELECTORS] = {CLAIM_REWARD_SELECTOR,
-                                                  DEPOSIT_SELECTOR,
-                                                  DEPOSIT_AND_CLAIM_SELECTOR,
-                                                  DEPOSIT_ETH_SELECTOR,
-                                                  DEPOSIT_ETH_AND_CLAIM_SELECTOR,
-                                                  SIMPLE_MIGRATE_SELECTOR,
-                                                  SIMPLE_MIGRATE_WITH_PERMIT_SELECTOR,
-                                                  WITHDRAW_SELECTOR,
-                                                  WITHDRAW_AND_CLAIM_SELECTOR,
-                                                  WITHDRAW_ETH_SELECTOR,
-                                                  WITHDRAW_ETH_AND_CLAIM_SELECTOR,
-                                                  CLAIM_REWARDS_SELECTOR,
-                                                  LOCK_SELECTOR,
-                                                  MINT_SELECTOR,
-                                                  UNLOCK_SELECTOR};
+const uint32_t VESPER_SELECTORS[NUM_SELECTORS] = {
+    DEPOSIT_SELECTOR,
+    DEPOSIT_AND_CLAIM_SELECTOR,
+    DEPOSIT_ETH_SELECTOR,
+    DEPOSIT_ETH_AND_CLAIM_SELECTOR,
+    WITHDRAW_SELECTOR,
+    WITHDRAW_AND_CLAIM_SELECTOR,
+    WITHDRAW_ETH_SELECTOR,
+    WITHDRAW_ETH_AND_CLAIM_SELECTOR,
+    CLAIM_REWARD_SELECTOR,
+    SIMPLE_MIGRATE_SELECTOR,
+    SIMPLE_MIGRATE_WITH_PERMIT_SELECTOR,
+};
 
 // Function to dispatch calls from the ethereum app.
 void dispatch_plugin_calls(int message, void *parameters) {

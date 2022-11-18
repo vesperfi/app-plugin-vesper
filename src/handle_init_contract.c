@@ -51,12 +51,11 @@ void handle_init_contract(void *parameters) {
         case WITHDRAW_ETH_AND_CLAIM:
             context->next_param = AMOUNT;
             break;
-        case CLAIM_REWARD:
         case DEPOSIT_ETH:
         case DEPOSIT_ETH_AND_CLAIM:
+        case CLAIM_REWARD:
             context->next_param = UNEXPECTED_PARAMETER;
             break;
-        // TODO add more methods and 1st params
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

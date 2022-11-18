@@ -54,15 +54,12 @@ void handle_finalize(void *parameters) {
 
     switch (context->selectorIndex) {
         case CLAIM_REWARD:
-        case UNLOCK:
             msg->numScreens = 1;
             break;
         case DEPOSIT:
         case DEPOSIT_AND_CLAIM:
         case DEPOSIT_ETH:
         case DEPOSIT_ETH_AND_CLAIM:
-        case LOCK:
-        case MINT:
         case WITHDRAW:
         case WITHDRAW_AND_CLAIM:
         case WITHDRAW_ETH:

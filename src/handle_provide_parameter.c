@@ -17,9 +17,6 @@ void handle_provide_parameter(void *parameters) {
     context_t *context = (context_t *) msg->pluginContext;
 
     switch (context->selectorIndex) {
-        case CLAIM_REWARD:
-            context->next_param = UNEXPECTED_PARAMETER;
-            break;
         case DEPOSIT:
         case DEPOSIT_AND_CLAIM:
         case WITHDRAW:
@@ -28,7 +25,9 @@ void handle_provide_parameter(void *parameters) {
         case WITHDRAW_ETH_AND_CLAIM:
             handle_deposit_and_withdraw(msg, context);
             break;
-        // TODO add more methods
+        case CLAIM_REWARD:
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

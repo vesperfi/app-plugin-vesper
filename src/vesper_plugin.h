@@ -10,30 +10,24 @@
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
-    CLAIM_REWARD = 0,
-    DEPOSIT,
+    DEPOSIT = 0,
     DEPOSIT_AND_CLAIM,
     DEPOSIT_ETH,
     DEPOSIT_ETH_AND_CLAIM,
-    SIMPLE_MIGRATE,
-    SIMPLE_MIGRATE_WITH_PERMIT,
     WITHDRAW,
     WITHDRAW_AND_CLAIM,
     WITHDRAW_ETH,
     WITHDRAW_ETH_AND_CLAIM,
-    CLAIM_REWARDS,
-    LOCK,
-    MINT,
-    UNLOCK,
+    CLAIM_REWARD,
+    SIMPLE_MIGRATE,
+    SIMPLE_MIGRATE_WITH_PERMIT,
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
 typedef enum {
     AMOUNT = 0,
-    LOCK_PERIOD,
     POOL_FROM,
     POOL_TO,
-    POSITION_ID,
     UNEXPECTED_PARAMETER,
 } parameter;
 
