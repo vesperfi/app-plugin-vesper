@@ -1,60 +1,48 @@
-const metadata = require("vesper-metadata");
+const axios = require("axios");
 
-// The deposit asset decimals should be present in vesper-metadata or read from the contracts.
-const assetDecimals = {
-  alUSD: 18,
-  APE: 18,
-  AVAX: 18,
-  BNB: 18,
-  BUSD: 18,
-  DAI: 18,
-  "DAI.e": 18,
-  DPI: 18,
-  ETH: 18,
-  FEI: 18,
-  FRAX: 18,
-  LINK: 18,
-  MATIC: 18,
-  mUSD: 18,
-  QI: 18,
-  stETH: 18,
-  UNI: 18,
-  USDC: 6,
-  "USDC.e": 6,
-  USDT: 6,
-  VSP: 18,
-  WBTC: 8,
-  "WBTC.e": 8,
-  WETH: 18,
-  "WETH.e": 18,
-};
+function byChainAndBirthBlock(a, b) {
+  if (a.chainId !== b.chainId) {
+    return a.chainId - b.chainId;
+  }
+  return b.birthblock - a.birthblock;
+}
 
-function toPluginFormat(pool) {
-  const address = pool.address
+function toBytesArray(address) {
+  return address
     .slice(2)
     .toLowerCase()
     .match(/../g)
     .map((byte) => `0x${byte}`)
     .join(",");
+}
 
-  const decimals = assetDecimals[pool.asset];
-  if (!decimals) {
-    throw new Error(`No decimals found for ${pool.asset}`);
-  }
-
+function toPluginFormat(pool) {
   return [
-    `{${address}}`,
+    pool.chainId,
+    `{${toBytesArray(pool.address)}}`,
     `"${pool.symbol.slice(0, 11)}"`,
-    `"${pool.asset.slice(0, 11)}"`,
-    decimals,
+    `"${pool.asset.symbol.slice(0, 11)}"`,
+    pool.asset.decimals,
+    `{${toBytesArray(pool.rewardsContractAddress || "0x00")}}`,
   ].join(",");
 }
 
-const pools = metadata.pools.filter((pool) => pool.stage != "retired");
+const vesperApiUrls = [
+  "https://api.vesper.finance/pools?stages=prod+orbit+beta",
+];
 
-console.log(`// Generated from vesper-metadata@${metadata.version}`);
-console.log('#include "vesper_plugin.h"');
-console.log(`#define NUM_VESPER_POOLS ${pools.length}`);
-console.log("const pool_metadata_t VESPER_POOLS[NUM_VESPER_POOLS] = {");
-pools.map(toPluginFormat).forEach((pool) => console.log(`{${pool}},`));
-console.log("};");
+Promise.all(vesperApiUrls.map((url) => axios.get(url))).then(function (
+  responses
+) {
+  const pools = responses
+    .map((response) => response.data)
+    .flat()
+    .sort(byChainAndBirthBlock);
+
+  console.log(`// Auto-generated on ${new Date().toISOString()}`);
+  console.log('#include "vesper_plugin.h"');
+  console.log(`#define NUM_VESPER_POOLS ${pools.length}`);
+  console.log("const pool_metadata_t VESPER_POOLS[NUM_VESPER_POOLS] = {");
+  pools.map(toPluginFormat).forEach((pool) => console.log(`{${pool}},`));
+  console.log("};");
+});
