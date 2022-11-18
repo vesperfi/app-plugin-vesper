@@ -50,6 +50,17 @@
       }
     },
     {
+      "address": "0x92659c1293f74d76249a72601c9bf36bf6d738ca",
+      "contractName": "veETH-DAI Rewards",
+      "selectors": {
+        "0xd279c191": {
+          "erc20OfInterest": [],
+          "method": "claimReward",
+          "plugin": "Vesper"
+        }
+      }
+    },
+    {
       "address": "0xa89566489e932a2d334b9eff7884feb21a07d2b3",
       "contractName": "veETH-DAI Earn Pool",
       "selectors": {

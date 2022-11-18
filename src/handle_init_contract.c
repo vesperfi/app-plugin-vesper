@@ -51,6 +51,7 @@ void handle_init_contract(void *parameters) {
         case WITHDRAW_ETH_AND_CLAIM:
             context->next_param = AMOUNT;
             break;
+        case CLAIM_REWARD:
         case DEPOSIT_ETH:
         case DEPOSIT_ETH_AND_CLAIM:
             context->next_param = UNEXPECTED_PARAMETER;
