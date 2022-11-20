@@ -15,15 +15,11 @@ static void handle_deposit_and_withdraw(ethPluginProvideParameter_t *msg, contex
 void handle_provide_parameter(void *parameters) {
     ethPluginProvideParameter_t *msg = (ethPluginProvideParameter_t *) parameters;
     context_t *context = (context_t *) msg->pluginContext;
-    // We use `%.*H`: it's a utility function to print bytes. You first give
-    // the number of bytes you wish to print (in this case, `PARAMETER_LENGTH`) and then
-    // the address (here `msg->parameter`).
-    PRINTF("plugin provide parameter: offset %d\nBytes: %.*H\n",
-           msg->parameterOffset,
-           PARAMETER_LENGTH,
-           msg->parameter);
 
     switch (context->selectorIndex) {
+        case CLAIM_REWARD:
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
         case DEPOSIT:
         case DEPOSIT_AND_CLAIM:
         case WITHDRAW:

@@ -68,6 +68,7 @@ void handle_query_contract_ui(void *parameters) {
     switch (msg->screenIndex) {
         case 0:
             switch (context->selectorIndex) {
+                case CLAIM_REWARD:
                 case DEPOSIT:
                 case DEPOSIT_AND_CLAIM:
                 case DEPOSIT_ETH:

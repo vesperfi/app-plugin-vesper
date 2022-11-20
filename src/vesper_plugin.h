@@ -43,10 +43,12 @@ typedef enum {
 extern const uint32_t VESPER_SELECTORS[NUM_SELECTORS];
 
 typedef struct pool_metadata_t {
+    uint8_t chain_id;                   // Pool chain id
     uint8_t address[ADDRESS_LENGTH];    // Pool address
     char pool_ticker[MAX_TICKER_LEN];   // Pool ticker
     char token_ticker[MAX_TICKER_LEN];  // Deposit token ticker
     uint8_t decimals;                   // Deposit token decimals
+    uint8_t rewards[ADDRESS_LENGTH];    // Rewards contract address
 } pool_metadata_t;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
