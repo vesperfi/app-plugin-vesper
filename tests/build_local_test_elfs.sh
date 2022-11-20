@@ -12,14 +12,11 @@ build_plugin() {
     # arguments: <SDK letter>
     echo "** Building app-plugin for Nano $1..."
     local target="$(realpath './elfs/')/plugin_nano${1,,}.elf"
-    if [ "$1" == "S" ];
-    then
+    if [ "$1" == "S" ]; then
         local sdk=$NANOS_SDK
-    elif [ "$1" == "SP" ];
-    then
+    elif [ "$1" == "SP" ]; then
         local sdk=$NANOSP_SDK
-    elif [ "$1" == "X" ];
-    then
+    elif [ "$1" == "X" ]; then
         local sdk=$NANOX_SDK
     else
         echo "Unknown SDK '$1'"
@@ -36,14 +33,11 @@ build_ethereum() {
     # arguments: <SDK letter>
     echo "** Building app-ethereum for Nano $1..."
     local target="$(realpath './elfs/')/ethereum_nano${1,,}.elf"
-    if [ "$1" == "S" ];
-    then
+    if [ "$1" == "S" ]; then
         local sdk=$NANOS_SDK
-    elif [ "$1" == "SP" ];
-    then
+    elif [ "$1" == "SP" ]; then
         local sdk=$NANOSP_SDK
-    elif [ "$1" == "X" ];
-    then
+    elif [ "$1" == "X" ]; then
         local sdk="$NANOX_SDK"
     else
         echo "Unknown SDK '$1'"
@@ -56,15 +50,13 @@ build_ethereum() {
     cd -
 }
 
-
 main() {
     # create elfs folder if it doesn't exist
     mkdir -p elfs
 
-    if [ $# -ne 0 ];
-    then
+    if [ $# -ne 0 ]; then
         test -d "$1" ||
-            (echo "Provided argument '$1' is expected to be the app-ethereum repository path, but is not a directory" && exit 1);
+            (echo "Provided argument '$1' is expected to be the app-ethereum repository path, but is not a directory" && exit 1)
         APP_ETHEREUM="$1"
     fi
 
@@ -82,6 +74,5 @@ main() {
 
     echo "* Done"
 }
-
 
 main "$@"
