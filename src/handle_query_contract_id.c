@@ -44,7 +44,7 @@ void handle_query_contract_id(void *parameters) {
             break;
         case SIMPLE_MIGRATE:
         case SIMPLE_MIGRATE_WITH_PERMIT:
-            set_msg_version(msg, "Transfer");
+            set_msg_version(msg, "Migrate");
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);

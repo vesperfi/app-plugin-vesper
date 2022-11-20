@@ -22,9 +22,11 @@ void set_token_amount(ethQueryContractUI_t *msg,
     amountToString(amount, amount_len, decimals, ticker_with_space, msg->msg, msg->msgLength);
 }
 
-static void set_pool_name_ui(ethQueryContractUI_t *msg, context_t *context) {
-    set_msg_title(msg, "Pool");
-    set_msg_msg(msg, context->pool_metadata->pool_ticker);
+static void set_pool_name_ui(ethQueryContractUI_t *msg,
+                             const char *title,
+                             const pool_metadata_t *pool_metadata) {
+    set_msg_title(msg, title);
+    set_msg_msg(msg, pool_metadata->pool_ticker);
 }
 
 static void set_token_amount_ui(ethQueryContractUI_t *msg, context_t *context) {
@@ -77,7 +79,11 @@ void handle_query_contract_ui(void *parameters) {
                 case WITHDRAW_ETH:
                 case WITHDRAW_ETH_AND_CLAIM:
                 case CLAIM_REWARD:
-                    set_pool_name_ui(msg, context);
+                    set_pool_name_ui(msg, "Pool", context->pool_metadata);
+                    break;
+                case SIMPLE_MIGRATE:
+                case SIMPLE_MIGRATE_WITH_PERMIT:
+                    set_pool_name_ui(msg, "From pool", context->pool_metadata);
                     break;
                 // Keep this
                 default:
@@ -100,11 +106,26 @@ void handle_query_contract_ui(void *parameters) {
                 case WITHDRAW_AND_CLAIM:
                 case WITHDRAW_ETH:
                 case WITHDRAW_ETH_AND_CLAIM:
+                case SIMPLE_MIGRATE:
+                case SIMPLE_MIGRATE_WITH_PERMIT:
                     set_v_token_amount_ui(msg, context);
                     break;
                 // Keep this
                 default:
                     PRINTF("Received an invalid selectorIndex (1): %d\n", context->selectorIndex);
+                    msg->result = ETH_PLUGIN_RESULT_ERROR;
+                    return;
+            }
+            break;
+        case 2:
+            switch (context->selectorIndex) {
+                case SIMPLE_MIGRATE:
+                case SIMPLE_MIGRATE_WITH_PERMIT:
+                    set_pool_name_ui(msg, "To pool", context->pool_metadata_to);
+                    break;
+                // Keep this
+                default:
+                    PRINTF("Received an invalid selectorIndex (2): %d\n", context->selectorIndex);
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
             }

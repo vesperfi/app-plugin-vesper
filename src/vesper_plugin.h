@@ -26,8 +26,10 @@ typedef enum {
 // Enumeration used to parse the smart contract data.
 typedef enum {
     AMOUNT = 0,
-    POOL_FROM,
-    POOL_TO,
+    TOKEN_A,
+    TOKEN_B,
+    FROM,
+    TO,
     UNEXPECTED_PARAMETER,
 } parameter;
 
@@ -49,10 +51,13 @@ typedef struct pool_metadata_t {
 typedef struct context_t {
     // For display.
     const pool_metadata_t *pool_metadata;
+    const pool_metadata_t *pool_metadata_to;
     uint8_t amount[INT256_LENGTH];
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
+    uint8_t pool_from[ADDRESS_LENGTH];
+    uint8_t pool_to[ADDRESS_LENGTH];
 
     // For both parsing and display.
     selector_t selectorIndex;

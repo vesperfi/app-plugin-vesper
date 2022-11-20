@@ -27,6 +27,7 @@ void handle_finalize(void *parameters) {
     ethPluginFinalize_t *msg = (ethPluginFinalize_t *) parameters;
     context_t *context = (context_t *) msg->pluginContext;
 
+    bool pool_data_found = false;
     uint8_t *pool_address;
     uint8_t *rewards_address;
     switch (context->selectorIndex) {
@@ -40,14 +41,23 @@ void handle_finalize(void *parameters) {
         case WITHDRAW_ETH_AND_CLAIM:
             pool_address = msg->pluginSharedRO->txContent->destination;
             context->pool_metadata = find_pool_metadata(pool_address);
+            pool_data_found = context->pool_metadata != NULL;
             break;
         case CLAIM_REWARD:
             rewards_address = msg->pluginSharedRO->txContent->destination;
             context->pool_metadata = find_pool_rewards(rewards_address);
+            pool_data_found = context->pool_metadata != NULL;
+            break;
+        case SIMPLE_MIGRATE:
+        case SIMPLE_MIGRATE_WITH_PERMIT:
+            context->pool_metadata = find_pool_metadata(context->pool_from);
+            context->pool_metadata_to = find_pool_metadata(context->pool_to);
+            pool_data_found = context->pool_metadata != NULL && context->pool_metadata_to != NULL;
             break;
     }
-    if (!context->pool_metadata) {
-        PRINTF("Pool not found\n");
+
+    if (!pool_data_found) {
+        PRINTF("Pool data not found\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         return;
     }

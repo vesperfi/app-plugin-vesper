@@ -56,6 +56,10 @@ void handle_init_contract(void *parameters) {
         case CLAIM_REWARD:
             context->next_param = UNEXPECTED_PARAMETER;
             break;
+        case SIMPLE_MIGRATE:
+        case SIMPLE_MIGRATE_WITH_PERMIT:
+            context->next_param = TOKEN_A;
+            break;
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
