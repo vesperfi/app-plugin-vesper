@@ -10,30 +10,26 @@
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
-    CLAIM_REWARD = 0,
-    DEPOSIT,
+    DEPOSIT = 0,
     DEPOSIT_AND_CLAIM,
     DEPOSIT_ETH,
     DEPOSIT_ETH_AND_CLAIM,
-    SIMPLE_MIGRATE,
-    SIMPLE_MIGRATE_WITH_PERMIT,
     WITHDRAW,
     WITHDRAW_AND_CLAIM,
     WITHDRAW_ETH,
     WITHDRAW_ETH_AND_CLAIM,
-    CLAIM_REWARDS,
-    LOCK,
-    MINT,
-    UNLOCK,
+    CLAIM_REWARD,
+    SIMPLE_MIGRATE,
+    SIMPLE_MIGRATE_WITH_PERMIT,
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
 typedef enum {
     AMOUNT = 0,
-    LOCK_PERIOD,
-    POOL_FROM,
-    POOL_TO,
-    POSITION_ID,
+    TOKEN_A,
+    TOKEN_B,
+    FROM,
+    TO,
     UNEXPECTED_PARAMETER,
 } parameter;
 
@@ -55,10 +51,13 @@ typedef struct pool_metadata_t {
 typedef struct context_t {
     // For display.
     const pool_metadata_t *pool_metadata;
+    const pool_metadata_t *pool_metadata_to;
     uint8_t amount[INT256_LENGTH];
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
+    uint8_t pool_from[ADDRESS_LENGTH];
+    uint8_t pool_to[ADDRESS_LENGTH];
 
     // For both parsing and display.
     selector_t selectorIndex;

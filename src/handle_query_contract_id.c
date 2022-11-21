@@ -19,9 +19,6 @@ void handle_query_contract_id(void *parameters) {
     set_msg_name(msg, PLUGIN_NAME);
 
     switch (context->selectorIndex) {
-        case CLAIM_REWARD:
-            set_msg_version(msg, "Claim rewards");
-            break;
         case DEPOSIT:
         case DEPOSIT_ETH:
             set_msg_version(msg, "Deposit");
@@ -29,10 +26,6 @@ void handle_query_contract_id(void *parameters) {
         case DEPOSIT_AND_CLAIM:
         case DEPOSIT_ETH_AND_CLAIM:
             set_msg_version(msg, "Deposit and claim");
-            break;
-        case SIMPLE_MIGRATE:
-        case SIMPLE_MIGRATE_WITH_PERMIT:
-            set_msg_version(msg, "Transfer");
             break;
         case WITHDRAW:
             set_msg_version(msg, "Withdraw");
@@ -46,17 +39,12 @@ void handle_query_contract_id(void *parameters) {
         case WITHDRAW_ETH_AND_CLAIM:
             set_msg_version(msg, "Withdraw ETH and claim");
             break;
-        case CLAIM_REWARDS:
-            set_msg_version(msg, "Claim VSP");
+        case CLAIM_REWARD:
+            set_msg_version(msg, "Claim rewards");
             break;
-        case LOCK:
-            set_msg_version(msg, "Lock VSP");
-            break;
-        case MINT:
-            set_msg_version(msg, "Mint VSP");
-            break;
-        case UNLOCK:
-            set_msg_version(msg, "Unlock VSP");
+        case SIMPLE_MIGRATE:
+        case SIMPLE_MIGRATE_WITH_PERMIT:
+            set_msg_version(msg, "Migrate");
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);

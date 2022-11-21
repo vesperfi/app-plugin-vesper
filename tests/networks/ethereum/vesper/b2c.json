@@ -75,6 +75,22 @@
           "plugin": "Vesper"
         }
       }
+    },
+    {
+      "address": "0xca5a5b83fc6ed8577102e0b3b19379683f33b346",
+      "contractName": "MiniArmyKnife",
+      "selectors": {
+        "0xc3acd6b6": {
+          "erc20OfInterest": [],
+          "method": "simpleMigrateWithPermit",
+          "plugin": "Vesper"
+        },
+        "0xd24612e9": {
+          "erc20OfInterest": [],
+          "method": "simpleMigrate",
+          "plugin": "Vesper"
+        }
+      }
     }
   ],
   "name": "Vesper"
